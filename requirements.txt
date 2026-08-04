@@ -1,4 +1,4 @@
 streamlit
 numpy
-open3d-cpu
+open3d
 pymeshlab
