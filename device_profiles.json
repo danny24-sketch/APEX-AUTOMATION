@@ -1,0 +1,88 @@
+{
+  "AFO": {
+    "hard_fail": {
+      "double_surface_ratio_threshold": 0.02,
+      "max_scale_factor": 2.0
+    },
+    "soft_flag": {
+      "max_hole_mm": 8,
+      "expected_length_range_mm": [
+        180,
+        450
+      ],
+      "expected_girth_range_mm": [
+        150,
+        400
+      ],
+      "expected_open_ends": 2
+    }
+  },
+  "KAFO": {
+    "hard_fail": {
+      "double_surface_ratio_threshold": 0.02,
+      "max_scale_factor": 2.0
+    },
+    "soft_flag": {
+      "max_hole_mm": 10,
+      "expected_length_range_mm": [
+        350,
+        700
+      ],
+      "expected_girth_range_mm": [
+        200,
+        550
+      ],
+      "expected_open_ends": 2
+    }
+  },
+  "insole": {
+    "hard_fail": {
+      "double_surface_ratio_threshold": 0.02,
+      "max_scale_factor": 2.0
+    },
+    "soft_flag": {
+      "max_hole_mm": 5,
+      "expected_length_range_mm": [
+        150,
+        320
+      ],
+      "expected_girth_range_mm": null,
+      "expected_open_ends": 1,
+      "expected_digit_count": 5
+    }
+  },
+  "spinal": {
+    "hard_fail": {
+      "double_surface_ratio_threshold": 0.02,
+      "max_scale_factor": 2.0
+    },
+    "soft_flag": {
+      "max_hole_mm": 12,
+      "expected_length_range_mm": [
+        300,
+        600
+      ],
+      "expected_girth_range_mm": null,
+      "expected_open_ends": 2
+    }
+  },
+  "arm": {
+    "hard_fail": {
+      "double_surface_ratio_threshold": 0.02,
+      "max_scale_factor": 2.0
+    },
+    "soft_flag": {
+      "max_hole_mm": 8,
+      "expected_length_range_mm": [
+        150,
+        400
+      ],
+      "expected_girth_range_mm": [
+        120,
+        350
+      ],
+      "expected_open_ends": 2,
+      "expected_digit_count": 5
+    }
+  }
+}
