@@ -8,12 +8,12 @@ into dozens of disconnected pieces even on a clean synthetic cylinder,
 which would falsely trip the double-surface hard-fail check).
 
 Fix: Stage A should run against the mesh CR-Studio ALREADY built live
-during scanning (that's what the on-screen preview is) — not a mesh we
+during scanning (that's what the on-screen preview is) not a mesh we
 reconstruct ourselves. Reconstruction (Open3D Poisson) stays in Stage B
 only, where there's no time pressure.
 
 This module does background/clutter removal by filtering the EXISTING
-mesh's triangles directly — no resampling, no reconstruction — which is
+mesh's triangles directly no resampling, no reconstruction which is
 both faster and preserves real topology instead of introducing new
 artifacts.
 """
@@ -25,7 +25,7 @@ import open3d as o3d
 
 def remove_small_triangle_islands(mesh: o3d.geometry.TriangleMesh, min_triangle_fraction: float = 0.02):
     """
-    Drops small disconnected triangle clusters — the mesh-native
+    Drops small disconnected triangle clusters the mesh-native
     equivalent of statistical outlier removal. A handful of stray
     triangles (sensor noise, a scanner artifact) forms a tiny isolated
     island; real anatomy doesn't.
@@ -66,7 +66,7 @@ def remove_flat_background_components(mesh: o3d.geometry.TriangleMesh,
     mesh at once.
 
     Why not a single global plane fit: an insole scan's sole is itself
-    a large, genuinely flat real surface — a naive "find the biggest
+    a large, genuinely flat real surface a naive "find the biggest
     flat region anywhere in the mesh and delete it" approach would
     strip that real geometry, not just a background table. Confirmed
     by testing: a capped test cylinder lost an entire end-cap to a
@@ -187,13 +187,13 @@ def isolate_largest_component(mesh: o3d.geometry.TriangleMesh, secondary_cluster
 
 def weld_vertices(mesh: o3d.geometry.TriangleMesh, tolerance_mm: float = 0.01):
     """
-    Merges coincident/near-coincident vertices. MANDATORY first step —
+    Merges coincident/near-coincident vertices. MANDATORY first step
     some formats (notably STL exports from CAD tools like Fusion 360)
     store each triangle with its own independent vertex coordinates,
     even where triangles are physically touching. Without welding,
     every triangle looks like its own disconnected "island" to any
     connectivity-based check (component isolation, double-surface
-    detection, hole-boundary detection) — confirmed by testing: a real
+    detection, hole-boundary detection) confirmed by testing: a real
     406,348-triangle scan produced 405,494 separate components before
     welding, and 1 after. Without this step, background/noise removal
     would wipe out the entire mesh.
@@ -226,12 +226,12 @@ def preprocess_mesh(mesh: o3d.geometry.TriangleMesh,
                      secondary_cluster_flag_fraction: float = 0.15,
                      isolate_component: bool = True):
     """
-    Mesh-native preprocessing chain — no reconstruction, no resampling.
+    Mesh-native preprocessing chain no reconstruction, no resampling.
     Operates directly on the mesh CR-Studio already exported.
 
     isolate_component=False stops after background/noise removal,
     WITHOUT isolating to a single largest component. See note on
-    check ordering in pipeline.py — the double-surface check needs to
+    check ordering in pipeline.py the double-surface check needs to
     run before isolation, or overlapping shells get hidden.
     """
     t0 = time.perf_counter()
