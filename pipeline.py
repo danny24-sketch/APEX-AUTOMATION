@@ -6,14 +6,14 @@ DESIGN NOTES (from testing):
 
 1. Reconstruction was abandoned for this path. Earlier versions took a
    raw POINT CLOUD and reconstructed a mesh ourselves (ball-pivoting)
-   before running checks — too slow (multiple seconds) and too fragile
+   before running checks too slow (multiple seconds) and too fragile
    (fragmented a clean synthetic object into dozens of pieces, causing
    false hard-fails). Stage A now runs directly against the mesh
    CR-Studio already builds live during scanning. Reconstruction stays
    in Stage B only, with no time pressure.
 
 2. Check ordering matters. The double-surface check (overlapping
-   shells) must run BEFORE component isolation — isolation would
+   shells) must run BEFORE component isolation isolation would
    otherwise discard one overlapping shell as "disconnected anatomy"
    and hide the defect. So preprocessing runs twice: once without
    isolation (feeds double_surface), once with isolation (feeds every
@@ -42,7 +42,7 @@ def verify_scan(scan_mesh_path: str, device_type: str, profile_path: str = "devi
     hf = profile["hard_fail"]
     sf = profile["soft_flag"]
 
-    # Phase 1: background/noise removal only, NO component isolation yet —
+    # Phase 1: background/noise removal only, NO component isolation yet
     # this is what the double-surface check needs to see.
     pre_isolation_mesh, preprocess_report_1 = preprocess_mesh(raw_mesh, isolate_component=False)
     double_surface_result = check_double_surface(pre_isolation_mesh, hf["double_surface_ratio_threshold"])
