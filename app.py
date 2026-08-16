@@ -1,15 +1,3 @@
-"""
-Local test workbench — Stage A (automatic verification) + Stage B (full
-cleanup) behind a browser UI styled to match the mockup we designed
-earlier (card-based, color-coded status, rounded corners, plain-
-language interface, advanced/technical detail tucked away).
-
-This is NOT the final website — it's your own testing tool, built to
-give a feel for how the real clinician-facing flow will work.
-
-Run with:
-    streamlit run app.py
-"""
 
 import os
 import tempfile
@@ -39,10 +27,10 @@ REASON_LABELS = {
     "possible_disconnected_anatomy": "A separate section was detected may be real anatomy (e.g. swelling) rather than a scanning error",
 }
 
-# ---------------------------------------------------------------------------
-# Styling — matches the earlier approved mockup: warm neutral background,
+
+# Styling matches the earlier approved mockup: warm neutral background,
 # rounded cards, plain-language status, minimal chrome.
-# ---------------------------------------------------------------------------
+
 st.markdown("""
 <style>
     :root {
@@ -171,9 +159,8 @@ def reset_state():
         st.session_state.pop(key, None)
 
 
-# ---------------------------------------------------------------------------
 # Top bar
-# ---------------------------------------------------------------------------
+
 st.markdown("""
 <div class="apex-topbar">
     <div>
