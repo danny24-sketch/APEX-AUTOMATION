@@ -1,19 +1,14 @@
 """
-Detailed reporting — converts the raw Stage A / Stage B result dicts
+Detailed reporting converts the raw Stage A / Stage B result dicts
 into specific, itemized statements (exact numbers, exact counts, exact
 locations where available) instead of generic pass/fail labels.
-
-Built because APEX needs this for TRAINING users — a trainee needs to
-see "double surface detected: 3 overlapping regions, 340 affected
-edges" not just "double surface (fail)". Same for Stage B: not "holes
-were closed" but "3 holes closed, largest was 12.4mm".
 """
 
 
 def describe_stage_a(result: dict) -> list[str]:
     """
-    Returns one itemized statement PER CHECK, always — regardless of
-    pass/fail — so a trainee sees exactly what was checked and exactly
+    Returns one itemized statement PER CHECK, always regardless of
+    pass/fail so someone sees exactly what was checked and exactly
     what was found, not just the checks that happened to fail.
     """
     lines = []
@@ -98,7 +93,7 @@ def describe_stage_a(result: dict) -> list[str]:
 
     # --- Background / disconnected anatomy flag ---
     # Only surface this if double_surface didn't already explain the same
-    # disconnection as a genuine defect — otherwise a trainee sees the same
+    # disconnection as a genuine defect otherwise a trainee sees the same
     # overlapping shells described twice, once as a defect and once as
     # "might be real anatomy," which is confusing and contradictory.
     double_surface_already_failed = not checks.get("double_surface", {}).get("passed", True)
@@ -137,7 +132,7 @@ def describe_stage_a(result: dict) -> list[str]:
 def describe_stage_b(result: dict) -> list[str]:
     """
     Returns an itemized, exact list of what Stage B actually did to the
-    mesh — reconstruction stats, then every repair operation that ran,
+    mesh reconstruction stats, then every repair operation that ran,
     with real numbers.
     """
     lines = []
