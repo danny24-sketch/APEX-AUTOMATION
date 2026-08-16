@@ -1,5 +1,5 @@
 """
-Stage B — full-quality cleanup/reconstruction. Runs AFTER a scan has
+Stage B full-quality cleanup/reconstruction. Runs AFTER a scan has
 passed (or been confirmed past a soft_flag on) Stage A verification.
 No real-time constraint here — the patient/clinician does not need to
 wait for this step, so it's allowed to take longer in exchange for a
@@ -32,7 +32,7 @@ def load_as_point_cloud(path: str, sample_if_mesh: int = 200000) -> o3d.geometry
     (PLY supports both), so those try the point-cloud reader first and
     fall back to mesh-sampling if that comes back empty.
 
-    .OBJ and .STL are MESH-ONLY formats — there's no such thing as a
+    .OBJ and .STL are MESH-ONLY formats there's no such thing as a
     ".obj point cloud," so a point-cloud read attempt on these would
     always fail (that's expected, not a bug, but there's no reason to
     try it and generate a confusing warning every time). These go
