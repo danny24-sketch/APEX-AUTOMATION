@@ -1,9 +1,9 @@
 """
-Stage A — fast scan verification checks for APEX P&O scans.
+Stage A fast scan verification checks for APEX P&O scans.
 
 Design intent:
 - Runs directly on the raw/lightly-cleaned mesh, BEFORE the slow
-  Open3D Poisson reconstruction step (Stage B). No reconstruction here —
+  Open3D Poisson reconstruction step (Stage B). No reconstruction here
   every check below is a direct geometric/topological read, which is
   what keeps this fast enough to run while the patient is still present.
 - hard_fail checks always block. soft_flag checks return a warning that
@@ -13,7 +13,7 @@ Design intent:
 Units: all mm-based thresholds assume the mesh vertices are already in
 millimeters. If your CR-Studio export is in meters/cm, convert before
 calling these functions (or extend check_scale_deviation to detect and
-normalize it — see note in that function).
+normalize it see note in that function).
 """
 
 import json
@@ -36,18 +36,18 @@ def check_double_surface(mesh: o3d.geometry.TriangleMesh, threshold_ratio: float
     """
     Detects double-surface / non-manifold geometry using THREE signals:
 
-    1. Non-manifold edges shared between >2 triangles (welded double walls) —
+    1. Non-manifold edges shared between >2 triangles (welded double walls)
        HIGH RATIO of non-manifold edges to total edges is the signal.
     1b. The SAME, but as an ABSOLUTE COUNT. Confirmed necessary by testing on
        a real 400K-triangle CAD export: 5,137 non-manifold edges (a real,
        substantial defect scattered across ~300 small regions) only
-       amounted to 0.84% of total edges — under a 2% ratio threshold, so it
+       amounted to 0.84% of total edges under a 2% ratio threshold, so it
        passed when it shouldn't have. A real single-surface scan should have
        close to zero non-manifold edges regardless of mesh size; large
        meshes must not be able to hide a large absolute defect count behind
        a big denominator.
     2. Separate, spatially-overlapping connected shells (unwelded double
-       walls — e.g. scanner captured inner+outer surface as two distinct
+       walls e.g. scanner captured inner+outer surface as two distinct
        pieces that were never merged). Caught by clustering connected
        components and checking if any two components' bounding volumes
        substantially overlap.
@@ -122,7 +122,7 @@ def check_digit_separation(mesh: o3d.geometry.TriangleMesh, expected_digit_count
                             slice_range: tuple = (0.5, 0.98), n_slices: int = 40,
                             cluster_eps_mm: float = 4.0) -> dict:
     """
-    Detects webbing/bridging between fingers or toes — a common scan
+    Detects webbing/bridging between fingers or toes a common scan
     artifact where the scanner/reconstruction can't resolve the narrow
     gap between closely-spaced digits and fills it in with unwanted
     material. Confirmed necessary and validated against a real defect:
@@ -140,7 +140,7 @@ def check_digit_separation(mesh: o3d.geometry.TriangleMesh, expected_digit_count
 
     SOFT FLAG, not hard fail: real digit fusion (syndactyly) is a
     genuine congenital condition in APEX's patient population, not
-    just a scan error — this needs clinician confirmation, the same
+    just a scan error this needs clinician confirmation, the same
     principle already used for swelling/atypical anatomy.
 
     Only meaningful for device types with digits (insole -> toes, arm
@@ -197,10 +197,10 @@ def check_hole_sizes(mesh: o3d.geometry.TriangleMesh, max_hole_mm: float, expect
     """
     Finds boundary loops (hole edges) and estimates each hole's size
     as the max pairwise distance between points on that loop (a fast
-    proxy for hole diameter — good enough for a pass/fail gate).
+    proxy for hole diameter good enough for a pass/fail gate).
 
     expected_open_ends: many orthotic scans are naturally open-ended
-    (an AFO/KAFO/arm scan is a segment cut from a limb — both ends are
+    (an AFO/KAFO/arm scan is a segment cut from a limb both ends are
     real, intentional openings, not defects). The N largest boundary
     loops are treated as these natural ends and excluded from the
     defect count. Set to 0 for device types expected to be a fully
@@ -256,7 +256,7 @@ def check_hole_sizes(mesh: o3d.geometry.TriangleMesh, max_hole_mm: float, expect
         hole_entries.append({"centroid": centroid, "diameter_mm": diameter_estimate})
 
     # Identify natural open ends by POSITION (closest to the extremes of
-    # the mesh's longest axis) AND by SIZE PLAUSIBILITY — a genuine open
+    # the mesh's longest axis) AND by SIZE PLAUSIBILITY a genuine open
     # end should be roughly as wide as the object's own cross-section,
     # not a small puncture that merely happens to sit near an extreme.
     # Without the size check, an object with very few total boundary
